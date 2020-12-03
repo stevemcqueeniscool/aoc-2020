@@ -1,0 +1,10 @@
+BasedOnStyle: LLVM
+IndentWidth: 4
+
+ColumnLimit: 88
+AccessModifierOffset: -4
+AllowAllParametersOfDeclarationOnNextLine: true
+BreakBeforeBraces: Linux
+Cpp11BracedListStyle: true
+AlignAfterOpenBracket: AlwaysBreak
+SortIncludes: true

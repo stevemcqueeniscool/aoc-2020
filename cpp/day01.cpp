@@ -1,28 +1,27 @@
 #include <fstream>
 #include <iostream>
 #include <optional>
-#include <set>
+#include <unordered_set>
 #include <utility>
 
 const std::string PATH = "../data/day01.txt";
 
 using opt_pair_t = std::optional<std::pair<int, int>>;
-opt_pair_t find_pair(int target, const std::set<int> &xs)
+opt_pair_t find_pair(int target, const std::unordered_set<int> &xs)
 {
-    auto result = opt_pair_t{};
     for (int x : xs) {
         const auto y = target - x;
         if (xs.count(y) != 0) {
-            result = std::make_pair(x, y);
+	    return std::make_pair(x, y);
         }
     }
-    return result;
+    return std::nullopt;
 }
 
 int main()
 {
     std::fstream f(PATH, std::ios_base::in);
-    std::set<int> xs;
+    std::unordered_set<int> xs;
     int x;
     while (f >> x)
     {

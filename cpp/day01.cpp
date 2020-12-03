@@ -4,7 +4,7 @@
 #include <set>
 #include <utility>
 
-const std::string PATH = "../data/day1.txt";
+const std::string PATH = "../data/day01.txt";
 
 using opt_pair_t = std::optional<std::pair<int, int>>;
 opt_pair_t find_pair(int target, const std::set<int> &xs)

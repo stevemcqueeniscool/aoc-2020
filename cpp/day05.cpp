@@ -6,16 +6,13 @@
 
 const std::string PATH = "../../data/day05.txt";
 
-int code_to_int(std::string str)
+int code_to_int2(std::string str)
 {
-    auto result = 0;
-    for (const auto ch : str) {
-        result <<= 1;
-        if ((ch == 'R') || (ch == 'B')) {
-            result += 1;
-        }
-    }
-    return result;
+    std::replace(str.begin(), str.end(), 'R', '1');
+    std::replace(str.begin(), str.end(), 'L', '0');
+    std::replace(str.begin(), str.end(), 'B', '1');
+    std::replace(str.begin(), str.end(), 'F', '0');
+    return std::stoi(str, nullptr, 2);
 }
 
 int main()
@@ -25,20 +22,16 @@ int main()
     std::vector<int> codes;
     int result_a = 0;
     while (std::getline(f, line)) {
-        const int code = code_to_int(line);
+        const int code = code_to_int2(line);
         result_a = std::max(result_a, code);
         codes.push_back(code);
     }
     std::cout << result_a << std::endl;
 
-    int result_b = 0;
     std::sort(codes.begin(), codes.end());
-    for (size_t i = 0; i != codes.size() - 1; ++i) {
-        if (codes[i + 1] != codes[i] + 1) {
-            result_b = codes[i] + 1;
-        }
-    }
-    std::cout << result_b << std::endl;
+    const auto r = std::adjacent_find(
+        codes.begin(), codes.end(), [](int x, int y) { return y == x + 2; });
+    std::cout << *r + 1 << std::endl;
 
     return 0;
 }

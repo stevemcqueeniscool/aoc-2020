@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <fstream>
 #include <iostream>
 #include <string>
@@ -21,17 +22,23 @@ int main()
 {
     std::ifstream f(PATH);
     std::string line;
-    std::vector<std::string> lines;
-    while (std::getline(f, line)) {
-        lines.push_back(line);
-    }
-
+    std::vector<int> codes;
     int result_a = 0;
-    for (const auto &ln : lines) {
-        const int code = code_to_int(ln);
+    while (std::getline(f, line)) {
+        const int code = code_to_int(line);
         result_a = std::max(result_a, code);
+        codes.push_back(code);
     }
     std::cout << result_a << std::endl;
+
+    int result_b = 0;
+    std::sort(codes.begin(), codes.end());
+    for (size_t i = 0; i != codes.size() - 1; ++i) {
+        if (codes[i + 1] != codes[i] + 1) {
+            result_b = codes[i] + 1;
+        }
+    }
+    std::cout << result_b << std::endl;
 
     return 0;
 }

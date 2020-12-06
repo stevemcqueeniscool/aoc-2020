@@ -6,13 +6,13 @@
 
 const std::string PATH = "../../data/day05.txt";
 
-int code_to_int2(std::string str)
+int code_to_int(std::string str)
 {
-    std::replace(str.begin(), str.end(), 'R', '1');
-    std::replace(str.begin(), str.end(), 'L', '0');
-    std::replace(str.begin(), str.end(), 'B', '1');
-    std::replace(str.begin(), str.end(), 'F', '0');
-    return std::stoi(str, nullptr, 2);
+    int result = 0;
+    for (const auto ch : str) {
+        result = (result * 2) + ((ch == 'R' || ch == 'B') ? 1 : 0);
+    }
+    return result;
 }
 
 int main()
@@ -22,7 +22,7 @@ int main()
     std::vector<int> codes;
     int result_a = 0;
     while (std::getline(f, line)) {
-        const int code = code_to_int2(line);
+        const int code = code_to_int(line);
         result_a = std::max(result_a, code);
         codes.push_back(code);
     }

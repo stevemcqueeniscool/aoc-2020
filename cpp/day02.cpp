@@ -14,8 +14,7 @@ bool password_valid_a(std::string_view line)
 {
     const auto [_, low, high, ch, pwd] =
         scn::scan_tuple<int, int, char, std::string>(line, "{}-{} {}: {}");
-    const auto count =
-        std::count_if(pwd.begin(), pwd.end(), [ch](char p) { return p == ch; });
+    const auto count = std::count(pwd.begin(), pwd.end(), ch);
     return (count >= low) && (count <= high);
 }
 

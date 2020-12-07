@@ -10,22 +10,6 @@
 
 const std::string PATH = "../../data/day07.txt";
 
-std::pair<std::string, std::vector<std::pair<std::string, int>>>
-parse_line(const std::string &line)
-{
-    auto match = std::smatch{};
-    std::regex_search(line, match, std::regex("(\\w+ \\w+) bags contain"));
-    auto name = match[1];
-    auto chs = match.suffix().str();
-    auto edges = std::vector<std::pair<std::string, int>>{};
-    while (
-        std::regex_search(chs, match, std::regex(" ?(\\d+) (\\w+ \\w+) bags?[,.]"))) {
-        edges.emplace_back(match[2], std::stoi(match[1]));
-        chs = match.suffix().str();
-    }
-    return {name, edges};
-}
-
 using graph_t = std::unordered_map<std::string, std::vector<std::string>>;
 using graph_fwd_t =
     std::unordered_map<std::string, std::vector<std::pair<std::string, int>>>;
@@ -34,8 +18,8 @@ std::unordered_set<std::string> counter(const std::string &name, const graph_t &
 {
     const auto &deps = graph.find(name)->second;
     auto result = std::unordered_set<std::string>(deps.begin(), deps.end());
-    for (const auto &bag : deps) {
-        result.merge(counter(bag, graph));
+    for (const auto &dep : deps) {
+        result.merge(counter(dep, graph));
     }
     return result;
 }
@@ -56,13 +40,26 @@ int main()
     auto line = std::string{};
     auto graph = graph_t{};
     auto graph_fwd = graph_fwd_t{};
+    auto match = std::smatch{};
+
+    const auto begin_regex = std::regex("(\\w+ \\w+) bags contain");
+    const auto deps_regex = std::regex(" ?(\\d+) (\\w+ \\w+) bags?[,.]");
+
     while (std::getline(f, line)) {
-        auto [name, deps] = parse_line(line);
-        for (const auto &[inner_name, amount] : deps) {
-            graph[name];
-            graph[inner_name].push_back(name);
-            graph_fwd[inner_name];
-            graph_fwd[name].push_back({inner_name, amount});
+        std::regex_search(line, match, begin_regex);
+        const auto outer_name = match[1];
+        auto rest = match.suffix().str();
+
+        auto matches_begin = std::sregex_iterator(rest.begin(), rest.end(), deps_regex);
+        auto matches_end = std::sregex_iterator();
+        for (auto i = matches_begin; i != matches_end; ++i) {
+            std::smatch match = *i;
+
+            graph[outer_name];
+            graph[match[2]].emplace_back(outer_name);
+
+            graph_fwd[match[2]];
+            graph_fwd[outer_name].emplace_back(match[2], std::stoi(match[1]));
         }
     }
 

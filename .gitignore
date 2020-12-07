@@ -1,5 +1,7 @@
 _build*
 
+.vscode/
+
 # Created by https://www.toptal.com/developers/gitignore/api/cmake,c++,emacs
 # Edit at https://www.toptal.com/developers/gitignore?templates=cmake,c++,emacs
 

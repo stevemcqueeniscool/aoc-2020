@@ -17,11 +17,7 @@ std::pair<bool, int> terminates(const std::vector<instruction_t> &code)
     std::unordered_set<size_t> seen{};
     int acc = 0;
 
-    while (true) {
-        if ((pc >= code.size()) || (seen.count(pc) > 0)) {
-            break;
-        }
-
+    while ((pc < code.size()) && (seen.count(pc) == 0)) {
         seen.insert(pc);
         const auto &[opcode, arg] = code[pc];
         if (opcode == "acc") {

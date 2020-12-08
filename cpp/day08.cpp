@@ -1,6 +1,7 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <unordered_map>
 #include <unordered_set>
 #include <utility>
 #include <vector>
@@ -32,6 +33,9 @@ std::pair<bool, int> terminates(const std::vector<instruction_t> &code)
     return {pc >= code.size(), acc};
 }
 
+auto flipper =
+    std::unordered_map<std::string, std::string>{{"jmp", "nop"}, {"nop", "jmp"}};
+
 int main()
 {
     std::vector<instruction_t> code;
@@ -46,15 +50,15 @@ int main()
     std::cout << result_a << std::endl;
 
     int result_b = 0;
-    for (size_t i = 0; i != code.size(); ++i) {
-        if (code[i].first == "jmp") {
-            code[i].first = "nop";
+    for (auto &[opcode, _] : code) {
+        if (flipper.count(opcode) > 0) {
+            opcode = flipper[opcode];
             const auto [term, acc] = terminates(code);
             if (term) {
                 result_b = acc;
                 break;
             }
-            code[i].first = "jmp";
+            opcode = flipper[opcode];
         }
     }
     std::cout << result_b << std::endl;

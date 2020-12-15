@@ -4,6 +4,7 @@
 #include <string>
 #include <string_view>
 #include <unordered_map>
+#include <vector>
 
 #include <scn/scn.h>
 #include <scn/tuple_return.h>

@@ -94,8 +94,7 @@ template <int D> int simulation(std::vector<std::string> input)
 int main()
 {
     std::cout << simulation<3>(input) << std::endl;
-    for (int i =0; i != 100; ++i) {
-	std::cout << simulation<4>(input) << std::endl;
-    }
+    std::cout << simulation<4>(input) << std::endl;
+
     return 0;
 }

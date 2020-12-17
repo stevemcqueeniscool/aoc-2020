@@ -31,6 +31,9 @@ target_link_libraries(day12 scn::scn)
 add_executable(day12b day12b.cpp)
 target_link_libraries(day12b scn::scn)
 
+add_executable(day14 day14.cpp)
+add_executable(day14b day14b.cpp)
+
 add_executable(day15 day15.cpp)
 
 add_executable(day17 day17.cpp)

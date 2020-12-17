@@ -2,8 +2,10 @@ cmake_minimum_required(VERSION 3.16)
 
 project(aoc2020)
 set(CMAKE_CXX_STANDARD 17)
-add_compile_options(-Wall -Wextra -pedantic -Werror)
+add_compile_options(-march=znver1 -g -Wall -Wextra)
+
 add_subdirectory(scnlib)
+add_subdirectory(abseil-cpp)
 
 add_executable(day02 day02.cpp)
 target_link_libraries(day02 scn::scn)
@@ -24,3 +26,6 @@ add_executable(day09 day09.cpp)
 add_executable(day11 day11.cpp)
 
 add_executable(day15 day15.cpp)
+
+add_executable(day17 day17.cpp)
+target_link_libraries(day17 absl::flat_hash_map)

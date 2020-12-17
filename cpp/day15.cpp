@@ -1,27 +1,33 @@
+#include <cstdint>
 #include <iostream>
-#include <unordered_map>
+#include <limits>
+#include <utility>
 #include <vector>
+
+int solve(std::uint32_t N, const std::vector<int> &input)
+{
+    auto lookup = std::vector<std::uint32_t>(N, std::numeric_limits<uint32_t>::max());
+    std::uint32_t turn = 1;
+    for (auto i : input) {
+        lookup[i] = turn++;
+    }
+
+    std::uint32_t speak = 0;
+    for (; turn != N; ++turn) {
+        speak = turn - std::exchange(lookup[speak], turn);
+        if (speak > turn) {         // implements saturated subtraction without branching
+            speak = 0;              // see https://godbolt.org/z/Wj9a87
+        }
+    }
+    return speak;
+}
 
 int main()
 {
     const auto input = std::vector<int>{18, 8, 0, 5, 4, 1, 20};
 
-    auto lookup = std::unordered_map<int, int>{};
-    auto last_played = 0;
-    auto turn = 1;
-    for (auto i : input) {
-        last_played = i;
-        lookup[i] = turn;
-        ++turn;
-    }
+    std::cout << solve(2020, input) << std::endl;
+    std::cout << solve(30000000, input) << std::endl;
 
-    int next_play = 0;
-    for (; turn <= 30000000; ++turn) {
-        last_played = next_play;
-        next_play = lookup.count(last_played) == 0 ? 0 : turn - lookup[last_played];
-        lookup[last_played] = turn;
-    }
-
-    std::cout << last_played << std::endl;
     return 0;
 }

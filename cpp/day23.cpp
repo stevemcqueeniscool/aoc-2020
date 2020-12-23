@@ -48,12 +48,6 @@ int main()
             board_idx = (board_idx + 1) % board.size();
         }
         std::swap(board, new_board);
-        /*
-        for (auto e : board) {
-            std::cout << e << " ";
-        }
-        std::cout << std::endl;
-        */
     }
 
     std::cout << make_result(board) << std::endl;

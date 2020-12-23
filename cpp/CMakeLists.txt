@@ -40,3 +40,8 @@ add_executable(day17 day17.cpp)
 target_link_libraries(day17 absl::flat_hash_map)
 
 add_executable(day18 day18.cpp)
+
+add_executable(day22 day22.cpp)
+target_link_libraries(day22 absl::flat_hash_map)
+
+add_executable(day23 day23.cpp)
